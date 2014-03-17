@@ -1,0 +1,157 @@
+$largeScreenWidth: 800px;
+$largeScreenHeight: 1280px;
+$largeScreenPadding: 20px;
+$largeScreenBlockHeight: 150px;
+
+$largeScreenFullBlockWidth: $largeScreenWidth - 2 * $largeScreenPadding;
+$largeScreenHalfBlockWidth: ($largeScreenFullBlockWidth - $largeScreenPadding) / 2;
+$largeScreenTwoThirdBlockWidth: $largeScreenHalfBlockWidth + 50;
+$largeScreenOneThirdBlockWidth: $largeScreenHalfBlockWidth - 50;
+
+@media screen and (min-width: $smallScreenWidth + 1) {
+  body {
+    margin: 0;
+    width: $largeScreenWidth;
+    height: $largeScreenHeight;
+  }
+
+  .clock {
+    right: $largeScreenPadding;
+    top: $largeScreenPadding;
+    padding: $largeScreenPadding/2;
+  }
+
+  .backButton {
+    right: $largeScreenPadding;
+    top: $largeScreenPadding;
+    padding: $largeScreenPadding/2;
+  }
+
+  .navigationButtonWrapper {
+    display: none;
+  }
+
+  .blocks {
+    margin-top: 50px;
+  }
+
+  .block {
+    height: $largeScreenBlockHeight;
+    margin-top: $largeScreenPadding;
+    margin-left: $largeScreenPadding;
+    padding: $largeScreenPadding;
+
+    .signals {
+      padding-left: $largeScreenPadding;
+      bottom: $largeScreenPadding;
+      right: $largeScreenPadding;
+    }
+
+    &.battery {
+      width: $largeScreenTwoThirdBlockWidth;
+      background: $purple;
+
+      .title {
+        font-size: 64px;
+        bottom: 5px;
+      }
+    }
+
+    &.motor {
+      width: $largeScreenOneThirdBlockWidth;
+      background: $green;
+      margin-left: 16px;
+
+      .title {
+        font-size: 40px;
+        bottom: 10px;
+      }
+    }
+
+    &.trans {
+      width: $largeScreenOneThirdBlockWidth;
+      background: $green;
+
+      .title {
+        font-size: 64px;
+        bottom: 5px;
+      }
+    }
+
+    &.engine {
+      width: $largeScreenTwoThirdBlockWidth;
+      background: $purple;
+      margin-left: 16px;
+
+      .title {
+        font-size: 64px;
+        bottom: 5px;
+      }
+    }
+
+    &.vehicle {
+      width: $largeScreenHalfBlockWidth;
+      background: $purple;
+
+      .title {
+        font-size: 56px;
+        bottom: 7px;
+      }
+    }
+
+    &.charger {
+      width: $largeScreenHalfBlockWidth;
+      background: $green;
+      margin-left: 16px;
+
+      .title {
+        font-size: 48px;
+        bottom: 8px;
+      }
+    }
+
+    &.log {
+      width: $largeScreenFullBlockWidth;
+      background: $red;
+
+      &.logging {
+        background: $yellow;
+      }
+
+      .title {
+        font-size: 64px;
+        bottom: 5px;
+      }
+
+      .statusWrapper {
+        position: absolute;
+        right: $largeScreenPadding;
+        bottom: $largeScreenPadding;
+        text-align: right;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  canvas.rotary {
+    width: 600px;
+    height: 600px;
+    margin: 0 80px;
+  }
+
+  canvas.dial {
+    width: 200px;
+    height: 200px;
+  }
+
+  #vehicleAccelCanvas, .accelSignal {
+    left: 20px;
+  }
+  #vehicleBrakeCanvas, .brakeSignal {
+    left: 50%;
+    margin-left: -100px;
+  }
+  #vehicleSpeedCanvas, .speedSignal {
+    right: 20px;
+  }
+}

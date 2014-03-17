@@ -20,6 +20,7 @@
      */
     var BatteryCanvas = window.BatteryCanvas = function(element) {
         VehicleMonitorCanvas.call(this, element);
+        this.centerY += 100;
 
         this.speed = 0;
         this.targetSpeed = 0;

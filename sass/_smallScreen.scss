@@ -1,0 +1,157 @@
+$smallScreenWidth: 480px;
+$smallScreenHeight: 800px;
+$smallScreenOverscan: 20px;
+
+$smallScreenVisibleWidth: $smallScreenWidth - 2 * $smallScreenOverscan;
+$smallScreenVisibleHeight: $smallScreenHeight - 2 * $smallScreenOverscan;
+
+$smallScreenPadding: 20px;
+$smallScreenBlockHeight: 150px;
+
+$smallScreenBlocksPerPosition: 3;
+
+$smallScreenDialSize: 200px;
+
+@media screen and (max-width: $smallScreenWidth) {
+  html {
+    height: $smallScreenHeight;
+  }
+
+  body {
+    margin: $smallScreenOverscan;
+    width: $smallScreenVisibleWidth;
+    height: $smallScreenVisibleHeight;
+  }
+
+  .clock {
+    right: $smallScreenPadding;
+    top: $smallScreenPadding;
+    padding: $smallScreenPadding/2;
+  }
+
+  .backButton {
+    right: $smallScreenPadding;
+    top: $smallScreenPadding;
+    padding: $smallScreenPadding/2;
+  }
+
+  .home {
+    margin-top: 80px + $smallScreenPadding;
+
+    .navigationButtonWrapper {
+      padding: 0 $smallScreenPadding;
+
+      &.hide {
+        opacity: 0;
+      }
+
+      .navigationButton {
+        background-color: $offBlack;
+        width: 100%;
+        height: 2 * $smallScreenPadding;
+        background-repeat: no-repeat;
+        background-position: center;
+        -webkit-transition: all 1s ease;
+
+        &.disabled {
+          opacity: 0;
+        }
+
+        &.up {
+          background-image: url('../images/arrowUp.png');
+        }
+
+        &.down {
+          background-image: url('../images/arrowDown.png');
+        }
+      }
+    }
+
+    .blocksWrapper {
+      height: $smallScreenBlocksPerPosition * $smallScreenBlockHeight + ($smallScreenBlocksPerPosition + 1) * $smallScreenPadding;
+      overflow: hidden;
+    }
+
+    .blocks {
+      -webkit-transition: all 1s ease;
+
+      @for $i from 0 through 2 {
+        &.position#{$i} {
+          -webkit-transform: translateY(-$i * $smallScreenBlocksPerPosition * ($smallScreenBlockHeight + $smallScreenPadding));
+        }
+      }
+    }
+
+    .block {
+      width: $smallScreenVisibleWidth - 2 * $smallScreenPadding;
+      height: $smallScreenBlockHeight;
+      margin-top: $smallScreenPadding;
+      margin-left: $smallScreenPadding;
+      padding: $smallScreenPadding;
+
+      .signals {
+        padding-left: $smallScreenPadding;
+        bottom: $smallScreenPadding;
+        right: $smallScreenPadding;
+      }
+
+      &:nth-child(2n) {
+        background: $green;
+      }
+
+      &:nth-child(2n - 1) {
+        background: $purple;
+      }
+
+      .title {
+        font-size: 56px;
+        bottom: 7px;
+      }
+
+      &.log {
+        background: $red;
+
+        &.logging {
+          background: $yellow;
+        }
+      }
+    }
+  }
+
+  canvas.rotary {
+    width: $smallScreenVisibleWidth - 2 * $smallScreenPadding;
+    height: $smallScreenVisibleWidth - 2 * $smallScreenPadding;
+  }
+
+  canvas.dial {
+    width: 200px;
+    height: 200px;
+  }
+
+  .transSection {
+    h2 {
+      font-size: 60px;
+    }
+  }
+
+  .section.vehicleSection {
+    #vehicleAccelCanvas, .accelSignal,
+    #vehicleBrakeCanvas, .brakeSignal,
+    #vehicleSpeedCanvas, .speedSignal {
+      left: 50%;
+      margin-left: -100px;
+    }
+
+    #vehicleAccelCanvas, .accelSignal {
+      bottom: 2 * $smallScreenDialSize + 3 * $smallScreenPadding;
+    }
+
+    #vehicleBrakeCanvas, .brakeSignal {
+      bottom: $smallScreenDialSize + 2 * $smallScreenPadding;
+    }
+
+    #vehicleSpeedCanvas, .speedSignal {
+      bottom: $smallScreenPadding;
+    }
+  }
+}

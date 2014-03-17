@@ -17,7 +17,6 @@
 
     var canEmitter;
 
-    console.log(process.env.TEST_CAN_EMITTER);
     if (process.env.TEST_CAN_EMITTER) {
 
         canEmitter = new TestCanEmitter();
@@ -173,13 +172,27 @@
         $('.chargerCurrent').text(chargerCurrent.toFixed(1) + ' A');
     });
 
+    var blockFrame = 0;
+    $('.navigationButton.up').click(function() {
+        blockFrame = Math.max(blockFrame - 1, 0);
+        $('.blocks').removeClass('position0 position1 position2').addClass('position' + blockFrame);
+    });
+    $('.navigationButton.down').click(function() {
+        blockFrame = Math.min(blockFrame + 1, 2);
+        $('.blocks').removeClass('position0 position1 position2').addClass('position' + blockFrame);
+    });
+    $('.navigationButton.up, .navigationButton.down').click(function() {
+        $('.navigationButton.up').toggleClass('disabled', blockFrame === 0);
+        $('.navigationButton.down').toggleClass('disabled', blockFrame === 2);
+    });
+
     // go to section
     $('.block').click(function() {
         var section = $(this).attr('data-section');
         if (section) {
 
             // hide home
-            $('h1, .blocks, .clock').addClass('hide');
+            $('h1, .home, .clock').addClass('hide');
 
             // show section
             $('.backButton, .' + section).removeClass('hide');
@@ -217,7 +230,7 @@
         $('.section, .backButton').addClass('hide');
 
         // show home
-        $('h1, .blocks, .clock').removeClass('hide');
+        $('h1, .home, .clock').removeClass('hide');
 
         // stop animations
         engineCanvas.stop();
