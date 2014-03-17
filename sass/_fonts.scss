@@ -1,0 +1,17 @@
+$fontStyles: 'black', 'blackitalic', 'bold', 'bolditalic', 'extrathin', 'extrathinitalic', 'light', 'lightitalic', 'medium', 'mediumitalic', 'regular', 'regularitalic', 'thin', 'thinitalic', 'ultra', 'ultraitalic';
+
+@each $style in $fontStyles {
+  @font-face {
+    font-family: 'alrightsans-#{$style}';
+    src: url('../fonts/alrightsans/alrightsans-#{$style}.otf');
+  }
+
+  .alrightsans-#{$style} {
+    font-family: alrightsans-#{$style};
+  }
+}
+
+@mixin alrightsans($style, $size) {
+  font-family: 'alrightsans-#{$style}';
+  font-size: $size;
+}

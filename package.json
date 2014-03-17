@@ -1,0 +1,27 @@
+{
+  "name": "UWCenterStack",
+  "description": "The University of Washington EcoCAR 2 team Center Stack applications",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MixMasterMitch/UWCenterStack-VehicleMonitor"
+  },
+  "main": "html/index.html",
+  "dependencies": {
+    "underscore": "1.4.*",
+    "gaze": "~0.4.3",
+    "moment": "~2.5.1",
+    "uwcenterstack-canreadwriter": "~1.0.5"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-node-webkit-builder": "~0.1.15",
+    "grunt-contrib-sass": "~0.7.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-shell-spawn": "~0.3.0"
+  },
+  "window": {
+    "show": false
+  }
+}

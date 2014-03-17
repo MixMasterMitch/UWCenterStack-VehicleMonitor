@@ -1,0 +1,232 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../css/main.css">
+    </head>
+    <body>
+        <h1>Vehicle Monitor</h1>
+        <div class="backButton hide">Back</div>
+        <div class="clock"></div>
+        <div class="content">
+            <div class="blocks">
+                <div class="block alrightsans-extrathin battery" data-section="batterySection">
+                    <div class="title">Battery</div>
+                    <div class="signals">
+                        <div class="signal">
+                            <span class="label">Current:</span>
+                            <span class="batteryCurrent value"></span>
+                        </div>
+                        <div class="signal">
+                            <span class="label">Voltage:</span>
+                            <span class="batteryVoltage value"></span>
+                        </div>
+                        <div class="signal">
+                            <span class="label">SOC:</span>
+                            <span class="batterySoc value"></span>
+                        </div>
+                        <div class="signal">
+                            <span class="label">Temperature:</span>
+                            <span class="batteryTemp value"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="block alrightsans-extrathin motor" data-section="motorSection">
+                    <div class="title">Motor</div>
+                    <div class="signals">
+                        <div class="signal">
+                            <span class="label">RPM:</span>
+                            <span class="motorRpm value"></span>
+                        </div>
+                        <div class="signal">
+                            <span class="label">Torque:</span>
+                            <span class="motorTorque value"></span>
+                        </div>
+                        <div class="signal">
+                            <span class="label">Temperature:</span>
+                            <span class="motorTemp value"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="block alrightsans-extrathin trans" data-section="transSection">
+                    <div class="title">Trans</div>
+                    <div class="signals">
+                        <div class="signal">
+                            <span class="label">Gear:</span>
+                            <span class="transGear value"></span>
+                        </div>
+                        <div class="signal">
+                            <span class="label">Ratio:</span>
+                            <span class="transRatio value"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="block alrightsans-extrathin engine" data-section="engineSection">
+                    <div class="title">Engine</div>
+                    <div class="signals">
+                        <div class="signal">
+                            <span class="label">RPM:</span>
+                            <span class="engineRpm value"></span>
+                        </div>
+                        <div class="signal">
+                            <span class="label">Torque:</span>
+                            <span class="engineTorque value"></span>
+                        </div>
+                        <div class="signal">
+                            <span class="label">Temperature:</span>
+                            <span class="engineTemp value"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="block alrightsans-extrathin vehicle" data-section="vehicleSection">
+                    <div class="title">Vehicle</div>
+                    <div class="signals">
+                        <div class="signal">
+                            <span class="label">Accel:</span>
+                            <span class="vehicleAccel value"></span>
+                        </div>
+                        <div class="signal">
+                            <span class="label">Brake:</span>
+                            <span class="vehicleBrake value"></span>
+                        </div>
+                        <div class="signal">
+                            <span class="label">Speed:</span>
+                            <span class="vehicleSpeed value"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="block alrightsans-extrathin charger" data-section="chargerSection">
+                    <div class="title">Charger</div>
+                    <div class="signals">
+                        <div class="signal">
+                            <span class="label">AC Current:</span>
+                            <span class="chargerCurrent value"></span>
+                        </div>
+                        <div class="signal">
+                            <span class="label">AC Voltage:</span>
+                            <span class="chargerVoltage value"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="block alrightsans-extrathin log">
+                    <div class="title">Logging</div>
+                    <div class="statusWrapper">Status: <span class="status"></span></div>
+                </div>
+            </div>
+            <div class="section transSection hide">
+                <h2>Transmission</h2>
+                <div class="gear park">P</div>
+                <div class="gear reverse">R</div>
+                <div class="gear neutral">N</div>
+                <div class="gear drive">D <span class='driveExtra'><span class="gearNumber">1</span> 1:<span class="gearRatio"></span></span></div>
+            </div>
+            <div class="section engineSection hide">
+                <h2>Engine</h2>
+                <div class="signals">
+                    <div class="signal">
+                        <span class="label">RPM:</span>
+                        <span class="engineRpm value"></span>
+                    </div>
+                    <div class="signal">
+                        <span class="label">Torque:</span>
+                        <span class="engineTorque value"></span>
+                    </div>
+                    <div class="signal">
+                        <span class="label">Temperature:</span>
+                        <span class="engineTemp value"></span>
+                    </div>
+                </div>
+                <canvas id="engineCanvas" class="rotary"></canvas>
+            </div>
+            <div class="section motorSection hide">
+                <h2>Motor</h2>
+                <div class="signals">
+                    <div class="signal">
+                        <span class="label">RPM:</span>
+                        <span class="motorRpm value"></span>
+                    </div>
+                    <div class="signal">
+                        <span class="label">Torque:</span>
+                        <span class="motorTorque value"></span>
+                    </div>
+                    <div class="signal">
+                        <span class="label">Temperature:</span>
+                        <span class="motorTemp value"></span>
+                    </div>
+                </div>
+                <canvas id="motorCanvas" class="rotary"></canvas>
+            </div>
+            <div class="section batterySection hide">
+                <h2>Battery</h2>
+                <div class="signals">
+                    <div class="signal">
+                        <span class="label">Voltage:</span>
+                        <span class="batteryVoltage value"></span>
+                    </div>
+                    <div class="signal">
+                        <span class="label">Current:</span>
+                        <span class="batteryCurrent value"></span>
+                    </div>
+                    <div class="signal">
+                        <span class="label">SOC:</span>
+                        <span class="batterySoc value"></span>
+                    </div>
+                    <div class="signal">
+                        <span class="label">Temperature:</span>
+                        <span class="batteryTemp value"></span>
+                    </div>
+                </div>
+                <canvas id="batteryCanvas" class="battery"></canvas>
+            </div>
+            <div class="section vehicleSection hide">
+                <h2>Vehicle</h2>
+                <div class="signals">
+                    <div class="signal accelSignal">
+                        <span class="label">accelerator</span>
+                        <span class="vehicleAccel value"></span>
+                    </div>
+                    <div class="signal brakeSignal">
+                        <span class="label">brake</span>
+                        <span class="vehicleBrake value"></span>
+                    </div>
+                    <div class="signal speedSignal">
+                        <span class="label">speed</span>
+                        <span class="vehicleSpeed value"></span>
+                    </div>
+                </div>
+                <canvas id="vehicleAccelCanvas" class="dial"></canvas>
+                <canvas id="vehicleBrakeCanvas" class="dial"></canvas>
+                <canvas id="vehicleSpeedCanvas" class="dial"></canvas>
+                <canvas id="vehicleParticleCanvas" class="particle"></canvas>
+            </div>
+        </div>
+
+
+        <!-- Don't show the UI until it is completely loaded first-->
+        <script>
+            var gui = require('nw.gui');
+
+            window.onload = function() {
+                gui.Window.get().show();
+            }
+        </script>
+
+        <!-- Reload page on js, css, or html file change -->
+        <script>
+            if (process.env.NODE_ENV == 'development') {
+                var Gaze = require('gaze');
+                new Gaze(['html/**/*.html', 'css/**/*.css', 'scripts/**/*.js'])
+                        .on('all', function() {
+                            location && location.reload();
+                        });
+            }
+        </script>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+        <script src="../scripts/visualizations/VehicleMonitorCanvas.js"></script>
+        <script src="../scripts/visualizations/RotaryCanvas.js"></script>
+        <script src="../scripts/visualizations/DialCanvas.js"></script>
+        <script src="../scripts/visualizations/ParticleCanvas.js"></script>
+        <script src="../scripts/visualizations/BatteryCanvas.js"></script>
+        <script src="../scripts/vehicleMonitor.js"></script>
+    </body>
+</html>
