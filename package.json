@@ -11,7 +11,7 @@
     "underscore": "1.4.*",
     "gaze": "~0.4.3",
     "moment": "~2.5.1",
-    "uwcenterstack-canreadwriter": "~1.0.5"
+    "uwcenterstack-canreadwriter": "~1.1.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
@@ -22,6 +22,8 @@
     "grunt-shell-spawn": "~0.3.0"
   },
   "window": {
-    "show": false
+    "show": false,
+    "toolbar": false,
+    "fullscreen": true
   }
 }
