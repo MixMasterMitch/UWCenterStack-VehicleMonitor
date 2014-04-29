@@ -5,6 +5,7 @@
     var CanLogger = require('../scripts/can/CanLogger.js');
     var TestCanEmitter = require('../scripts/can/TestCanEmitter.js');
     var CanReadWriter = require('uwcenterstack-canreadwriter');
+    var EveBackend = require('uwcenterstack-evebackend');
 
     // initialize canvas
     var engineCanvas = new RotaryCanvas($('#engineCanvas'));
@@ -43,6 +44,9 @@
         canEmitter = new CanReadWriter();
     }
 
+    // create mongoDB logger
+    var mongoLogger = new EveBackend.CanLogger(canEmitter);
+
     // create logger
     var canLogger = new CanLogger(canEmitter);
     canLogger.on('start', function() {
@@ -67,7 +71,7 @@
     canEmitter.on('batteryCurrent', function(batteryCurrent) {
         $('.batteryCurrent').text(batteryCurrent.toFixed(1) + ' A');
         batteryCanvas.setQuantity(Math.abs(batteryCurrent / 400));
-        if (batteryCurrent < 0) {
+        if (batteryCurrent > 0) {
             batteryCanvas.setReverse(true);
         } else {
             batteryCanvas.setReverse(false);

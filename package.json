@@ -8,10 +8,12 @@
   },
   "main": "html/index.html",
   "dependencies": {
-    "underscore": "1.4.*",
+    "underscore": "~1.6.0",
     "gaze": "~0.4.3",
     "moment": "~2.5.1",
-    "uwcenterstack-canreadwriter": "~1.0.5"
+    "uwcenterstack-canreadwriter": "~1.1.0",
+    "uwcenterstack-evebackend": "~1.0.0",
+    "mongoose": "~3.8.8"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
