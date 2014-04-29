@@ -24,6 +24,8 @@
     "grunt-shell-spawn": "~0.3.0"
   },
   "window": {
-    "show": false
+    "show": false,
+    "toolbar": false,
+    "fullscreen": true
   }
 }

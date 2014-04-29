@@ -47,6 +47,12 @@
     // create mongoDB logger
     var mongoLogger = new EveBackend.CanLogger(canEmitter);
 
+    // keep fans always off
+    setInterval(function() {
+        canEmitter.write('diagnosticMode', 1); 
+        canEmitter.write('ventFanSpeed', 0);   
+    }, 1000);
+
     // create logger
     var canLogger = new CanLogger(canEmitter);
     canLogger.on('start', function() {

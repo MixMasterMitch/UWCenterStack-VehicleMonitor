@@ -7,7 +7,7 @@ var _ = require('underscore');
 var FileWatcher = require('../utils/FileWatcher.js');
 
 // Where log files should be written to
-var CAN_LOGS_DRIVE = process.env.CAN_LOGS_DRIVE || '/media/uw-center-stack/CAN LOGS';
+var CAN_LOGS_DRIVE = process.env.CAN_LOGS_DRIVE || '/media/uwcenterstack/CAN LOGS';
 
 /**
  * Logs can messages every second to a file. Set the CAN_LOGS_DRIVE env variable to change where the logs

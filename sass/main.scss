@@ -28,6 +28,8 @@ body {
 
 * {
   -webkit-box-sizing: border-box;
+  cursor: none !important;
+  -webkit-user-select: none;
 }
 
 h1 {
