@@ -3,7 +3,6 @@
     var events = require('events');
     var moment = require('moment');
     var CanLogger = require('../scripts/can/CanLogger.js');
-    var TestCanEmitter = require('../scripts/can/TestCanEmitter.js');
     var CanReadWriter = require('uwcenterstack-canreadwriter');
     var EveBackend = require('uwcenterstack-evebackend');
 
@@ -16,45 +15,40 @@
     var vehicleParticleCanvas = new ParticleCanvas($('#vehicleParticleCanvas'), 100);
     var batteryCanvas = new BatteryCanvas($('#batteryCanvas'));
 
-    var canEmitter;
+    var canReadWriter = new CanReadWriter();
 
-    if (process.env.TEST_CAN_EMITTER) {
-
-        canEmitter = new TestCanEmitter();
+    if (process.env.FAKE_CAN) {
 
         // record key presses
         $(window).keydown(function(e) {
             switch (e.keyCode) {
-                case 65: canEmitter.accelPressed = true; break; // a
-                case 66: canEmitter.brakePressed = true; break; // b
-                case 80: canEmitter.inPark = true; break; // p
-                case 67: canEmitter.charging = true; break; // c
+                case 65: canReadWriter.accelPressed = true; break; // a
+                case 66: canReadWriter.brakePressed = true; break; // b
+                case 80: canReadWriter.inPark = true; break; // p
+                case 67: canReadWriter.charging = true; break; // c
             }
         });
         $(window).keyup(function(e) {
             switch (e.keyCode) {
-                case 65: canEmitter.accelPressed = false; break; // a
-                case 66: canEmitter.brakePressed = false; break; // b
-                case 80: canEmitter.inPark = false; break; // p
-                case 67: canEmitter.charging = false; break; // c
+                case 65: canReadWriter.accelPressed = false; break; // a
+                case 66: canReadWriter.brakePressed = false; break; // b
+                case 80: canReadWriter.inPark = false; break; // p
+                case 67: canReadWriter.charging = false; break; // c
             }
         });
-    } else {
-        // use actual can read writer
-        canEmitter = new CanReadWriter();
     }
 
     // create mongoDB logger
-    var mongoLogger = new EveBackend.CanLogger(canEmitter);
+    var mongoLogger = new EveBackend.CanLogger(canReadWriter);
 
     // keep fans always off
     setInterval(function() {
-        canEmitter.write('diagnosticMode', 1); 
-        canEmitter.write('ventFanSpeed', 0);   
+        canReadWriter.write('diagnosticMode', 1);
+        canReadWriter.write('ventFanSpeed', 0);
     }, 1000);
 
     // create logger
-    var canLogger = new CanLogger(canEmitter);
+    var canLogger = new CanLogger(canReadWriter);
     canLogger.on('start', function() {
         $('.log .status').text('Started at ' + moment().format('HH:mm:ss'));
         $('.log').addClass('logging');
@@ -69,12 +63,12 @@
     });
 
     // initialize all event handlers
-    canEmitter.on('batteryVoltage', function(batteryVoltage) {
+    canReadWriter.on('batteryVoltage', function(batteryVoltage) {
         $('.batteryVoltage').text(batteryVoltage.toFixed(1) + ' V');
         batteryCanvas.setSpeed(batteryVoltage / 400);
     });
 
-    canEmitter.on('batteryCurrent', function(batteryCurrent) {
+    canReadWriter.on('batteryCurrent', function(batteryCurrent) {
         $('.batteryCurrent').text(batteryCurrent.toFixed(1) + ' A');
         batteryCanvas.setQuantity(Math.abs(batteryCurrent / 400));
         if (batteryCurrent > 0) {
@@ -84,31 +78,31 @@
         }
     });
 
-    canEmitter.on('batterySoc', function(batterySoc) {
+    canReadWriter.on('batterySoc', function(batterySoc) {
         $('.batterySoc').text(batterySoc.toFixed(1) + ' %');
         batteryCanvas.setSoc(batterySoc / 100);
     });
 
-    canEmitter.on('batteryTemp', function(batteryTemp) {
+    canReadWriter.on('batteryTemp', function(batteryTemp) {
         $('.batteryTemp').text(batteryTemp.toFixed(1) + ' C');
     });
 
-    canEmitter.on('motorRpm', function(motorRpm) {
+    canReadWriter.on('motorRpm', function(motorRpm) {
         $('.motorRpm').text(motorRpm.toFixed(0));
         motorCanvas.setVelocity(motorRpm / 10000);
     });
 
-    canEmitter.on('motorTorque', function(motorTorque) {
+    canReadWriter.on('motorTorque', function(motorTorque) {
         $('.motorTorque').text(motorTorque.toFixed(1) + ' Nm');
         motorCanvas.setRadius(Math.abs(motorTorque / 300));
     });
 
-    canEmitter.on('motorTemp', function(motorTemp) {
+    canReadWriter.on('motorTemp', function(motorTemp) {
         $('.motorTemp').text(motorTemp.toFixed(1) + ' C');
         motorCanvas.setColorTemp(motorTemp / 100);
     });
 
-    canEmitter.on('transGear', function(transGear) {
+    canReadWriter.on('transGear', function(transGear) {
         $('.transGear').text(transGear.toFixed(0));
 
         $('.transSection .gear').removeClass('selected');
@@ -132,34 +126,34 @@
         }
     });
 
-    canEmitter.on('transRatio', function(transRatio) {
+    canReadWriter.on('transRatio', function(transRatio) {
         $('.transRatio').text(transRatio.toFixed(2));
 
         $('.transSection .gearRatio').text(transRatio.toFixed(2));
     });
 
-    canEmitter.on('engineRpm', function(engineRpm) {
+    canReadWriter.on('engineRpm', function(engineRpm) {
         $('.engineRpm').text(engineRpm.toFixed(0));
         engineCanvas.setVelocity(engineRpm / 5000);
     });
 
-    canEmitter.on('engineTorque', function(engineTorque) {
+    canReadWriter.on('engineTorque', function(engineTorque) {
         $('.engineTorque').text(engineTorque.toFixed(1) + ' Nm');
         engineCanvas.setRadius(engineTorque / 300);
     });
 
-    canEmitter.on('engineTemp', function(engineTemp) {
+    canReadWriter.on('engineTemp', function(engineTemp) {
         $('.engineTemp').text(engineTemp.toFixed(1) + ' C');
         engineCanvas.setColorTemp(engineTemp / 100);
     });
 
-    canEmitter.on('vehicleAccel', function(vehicleAccel) {
+    canReadWriter.on('vehicleAccel', function(vehicleAccel) {
         $('.vehicleAccel').text(vehicleAccel.toFixed(0) + ' %');
         vehicleAccelCanvas.setValue(vehicleAccel / 100);
         vehicleParticleCanvas.setSize(vehicleAccel / 100);
     });
 
-    canEmitter.on('vehicleBrake', function(vehicleBrake) {
+    canReadWriter.on('vehicleBrake', function(vehicleBrake) {
         $('.vehicleBrake').text(vehicleBrake);
         if (vehicleBrake === 'yes') {
             vehicleBrakeCanvas.setValue(1);
@@ -168,17 +162,17 @@
         }
     });
 
-    canEmitter.on('vehicleSpeed', function(vehicleSpeed) {
+    canReadWriter.on('vehicleSpeed', function(vehicleSpeed) {
         $('.vehicleSpeed').text(vehicleSpeed.toFixed(0) + ' km/hr');
         vehicleSpeedCanvas.setValue(vehicleSpeed / 100);
         vehicleParticleCanvas.setSpeed(vehicleSpeed / 100);
     });
 
-    canEmitter.on('chargerVoltage', function(chargerVoltage) {
+    canReadWriter.on('chargerVoltage', function(chargerVoltage) {
         $('.chargerVoltage').text(chargerVoltage.toFixed(1) + ' V');
     });
 
-    canEmitter.on('chargerCurrent', function(chargerCurrent) {
+    canReadWriter.on('chargerCurrent', function(chargerCurrent) {
         $('.chargerCurrent').text(chargerCurrent.toFixed(1) + ' A');
     });
 

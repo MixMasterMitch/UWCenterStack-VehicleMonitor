@@ -27,22 +27,30 @@ alias uwcs-vm='cd $UWCENTERSTACK_VEHICLE_MONITOR_HOME'
 alias uwcs-vm-global-modules='sudo npm i -g nw-gyp && sudo npm i -g grunt-cli && sudo npm i -g grunt'
 
 # uwcs-vm-run - Runs the node-webkit vehicle apps in development mode with file watchers
-alias uwcs-vm-run='uwcs-vm ; grunt run'
+alias uwcs-vm-run='uwcs-vm ; grunt run --nodeEnv=development'
 
 # uwcs-vm-run-fake - Same as run but with the TEST_CAN_EMITTER env variable
-alias uwcs-vm-run-fake='uwcs-vm ; grunt fake'
+alias uwcs-vm-run-fake='uwcs-vm ; grunt run --nodeEnv=development  --fakeCan=true'
 
 uwcs-vm-native-modules() {
-  uwcs-vm
-  for module in `ls node_modules`;
-  do
-      uwcs-vm
-      cd node_modules/$module
-      if [ -s binding.gyp ]; then
-        nw-gyp rebuild --target=0.8.5
-      fi
-  done
-  uwcs-vm
+    uwcs-vm
+    _uwcs-vm-native-modules
+}
+
+_uwcs-vm-native-modules() {
+    if [ -s node_modules ]; then
+        cd node_modules
+        for module in `ls`;
+        do
+            cd $module
+            if [ -s binding.gyp ]; then
+                nw-gyp rebuild --target=0.8.5
+            fi
+            _uwcs-vm-native-modules
+            cd ..
+        done
+        cd ..
+    fi
 }
 
 # uwcs-vm-build - Builds the executable node-webkit vehicle apps

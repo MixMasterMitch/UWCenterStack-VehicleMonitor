@@ -215,13 +215,21 @@
             var gui = require('nw.gui');
 
             window.onload = function() {
-                gui.Window.get().show();
+                var win = gui.Window.get();
+                win.show();
+                if (process.env.NODE_ENV == 'development') {
+                    win.showDevTools();
+                } else {
+                    win.enterFullscreen();
+                }
             }
         </script>
 
         <!-- Reload page on js, css, or html file change -->
         <script>
             if (process.env.NODE_ENV == 'development') {
+                var win = gui.Window.get();
+
                 var Gaze = require('gaze');
                 new Gaze(['html/**/*.html', 'css/**/*.css', 'scripts/**/*.js'])
                         .on('all', function() {

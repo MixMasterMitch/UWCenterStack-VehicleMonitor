@@ -63,21 +63,15 @@ module.exports = function(grunt) {
                 async: true
             },
             nodeWebkitDev: {
-                command: [
-                  'export TEST_CAN_EMITTER=""',
-                  'export NODE_ENV=development',
-                  '$UWCENTERSTACK_VEHICLE_MONITOR_NW $UWCENTERSTACK_VEHICLE_MONITOR_HOME'
-                ].join(' && ')
-            },
-            nodeWebkitDevFake: {
-                command: [
-                  'export TEST_CAN_EMITTER=true',
-                  'export NODE_ENV=development',
-                  '$UWCENTERSTACK_VEHICLE_MONITOR_NW $UWCENTERSTACK_VEHICLE_MONITOR_HOME'
-                ].join(' && ')
-            },
-            ls: {
-                command: 'ls'
+                command: isPlatform('darwin') ? 'NODE_ENV=' + (grunt.option('nodeEnv') || 'development') + ' ' +
+                                                'LEAP=' + (grunt.option('leap') || 'false') + ' ' +
+                                                'FAKE_CAN=' + (grunt.option('fakeCan') || 'true') + ' ' +
+                                                'open -n -a node-webkit ""' :
+                         isPlatform('linux') ? ['export NODE_ENV=' + (grunt.option('nodeEnv') || 'development'),
+                                                'export LEAP=' + (grunt.option('leap') || 'false'),
+                                                'export FAKE_CAN=' + (grunt.option('fakeCan') || 'false'),
+                                                './nw/nw .'].join(' && ') :
+                         isPlatform('win64') || isPlatform('win32') ? ['set NODE_ENV=development', 'nodewebkit'].join('&&') : ''
             }
         }
     });
@@ -89,16 +83,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-shell-spawn');
 
     // Default task(s).
-    grunt.registerTask('update', 'Updates every module and rebuilds for node-webkit', function() {
-        _.each(grunt.file.expand('node_modules/*'), function(directory) {
-            console.log(directory);
-            grunt.file.setBase(directory);
-            grunt.task.run('shell:ls');
-            grunt.file.setBase('..', '..');//nw-gyp rebuild --target=0.8.5
-        });
-    });
     grunt.registerTask('build', ['sass', 'jshint', 'nodewebkit']);
     grunt.registerTask('run', ['sass', 'jshint', 'shell:nodeWebkitDev', 'watch']);
-    grunt.registerTask('fake', ['sass', 'jshint', 'shell:nodeWebkitDevFake', 'watch']);
 
 };

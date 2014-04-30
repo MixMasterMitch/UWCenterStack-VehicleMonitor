@@ -25,7 +25,6 @@
   },
   "window": {
     "show": false,
-    "toolbar": false,
-    "fullscreen": true
+    "toolbar": false
   }
 }
