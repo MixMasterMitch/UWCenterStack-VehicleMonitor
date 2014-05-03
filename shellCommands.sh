@@ -44,7 +44,7 @@ _uwcs-vm-native-modules() {
         do
             cd $module
             if [ -s binding.gyp ]; then
-                nw-gyp rebuild --target=0.8.5
+                sudo nw-gyp rebuild --target=0.8.5
             fi
             _uwcs-vm-native-modules
             cd ..
